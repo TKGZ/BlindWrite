@@ -10,18 +10,17 @@ export default function SettingsScreen() {
    * Go ahead and delete ExpoConfigView and replace it with your content;
    * we just wanted to give you a quick view of your config.
    */
+  var mainStyle = {
+    color: "red",
+    fontSize: 25,
+  };
+
   return (
     <View>
-      <Text>
-        <h1>
-          Settings page
-          Example: 
-            - ShowShape (should we display the shape?)
-            - Vibration mode
-            - Vibration strength
-        </h1>
+      <Text style={mainStyle}>
+        This is a simple Settings Page
+
       </Text>
-      
     </View>
   );
 }
