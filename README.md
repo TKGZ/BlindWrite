@@ -14,6 +14,8 @@ cd .\BlindWrite\
 => Initialize the app and run it
 
 npm start
+
 or
+
 expo start
 
