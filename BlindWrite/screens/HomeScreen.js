@@ -16,43 +16,11 @@ import {
 
 import { MonoText } from '../components/StyledText';
 
-//calls the vibration every time an area is touched
-
-
-//later make it it's own props to handle vibration tasks!
-
-
-export default function HomeScreen(props) {
+function TouchShape(props){
 
   const [locationX, setLocationX] = useState(0);
   const [locationY, setLocationY] = useState(0);
 
-
-  var titleStyle = {
-    color: "red",
-    fontSize: 25,
-  };
-
-  var circleStyle = {
-    width: 200,
-    height: 200,
-    borderRadius: 80/2,
-    backgroundColor: 'blue',
-  }
-
-  var surfaceStyle = {
-    width: 200,
-    height: 200,
-    backgroundColor: 'red',
-  }
-  //responder props to detect hand gestures relative to the view!!!
-
-  //when the action is started
-
-
-  //Defining conditions under which our view wants to be a responder
-  //here: when something moves on it!
-  //yes!
   function onStartShouldSetResponder(evt)
   {
     return true;
@@ -63,13 +31,34 @@ export default function HomeScreen(props) {
     return true;
   }
 
-  //once view becomes a responder, we want it to react as long as the element is still on the screen!
   function onResponderMove(evt)
   {
     //tryVibration(evt);
     setLocationX(evt.nativeEvent.pageX);
-    setLocationY(evt.nativeEvent.locationY);
+    setLocationY(evt.nativeEvent.pageY);
   }
+
+  return (
+    <View
+    >
+      <Text style={styles.title}>Location X: {Math.round(locationX)} </Text>
+      <Text style={styles.title}>Location Y: {Math.round(locationY)} </Text>
+      <View
+      onMoveShouldSetResponder={onMoveShouldSetResponder}
+      onStartShouldSetResponder={onStartShouldSetResponder}
+      onResponderMove={onResponderMove}>
+      {props.children}
+      </View>
+    </View>
+  );
+}
+
+//later make it it's own props to handle vibration tasks!
+
+
+
+export default function HomeScreen(props) {
+
 
   function tryVibration()
   {
@@ -88,15 +77,11 @@ export default function HomeScreen(props) {
   return (
     <View
       style={styles.container}
-      
     >  
-        <Text style={titleStyle}>Location X: {Math.round(locationX)} </Text>
-        <Text style={titleStyle}>Location Y: { (locationY)} </Text>
-        <View 
-          style={backgroundColor="blue"}
-          onMoveShouldSetResponder={onMoveShouldSetResponder}
-          onStartShouldSetResponder={onStartShouldSetResponder}
-          onResponderMove={onResponderMove}></View>
+        <Text>Main Screen</Text>
+        <TouchShape>
+          <View style={styles.circle}></View>
+        </TouchShape>
     </View>
   );
 }
@@ -140,17 +125,22 @@ function handleHelpPress() {
   );
 }
 
+
 const styles = StyleSheet.create({
 
+  title: {
+    fontSize: 20,
+    color: 'red',
+  },
   circle: {
-    width: 100,
-    height: 100,
-    borderRadius: 100/2,
+    width: 300,
+    height: 300,
+    borderRadius: 300/2,
     backgroundColor: 'blue',
   },
   container: {
     flex: 1,
-    backgroundColor: 'blue',
+    backgroundColor: 'aqua',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
