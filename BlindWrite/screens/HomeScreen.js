@@ -1,5 +1,5 @@
 import * as WebBrowser from 'expo-web-browser';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Image,
   Platform,
@@ -8,27 +8,95 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Alert,
+  Button,
+  Vibration,
+
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
 
-//call this whenever object is touched (somehow)
-function launchVibration() {
+//calls the vibration every time an area is touched
 
-  return (null);
-}
 
-export default function HomeScreen() {
+//later make it it's own props to handle vibration tasks!
+
+
+export default function HomeScreen(props) {
+
+  const [locationX, setLocationX] = useState(0);
+  const [locationY, setLocationY] = useState(0);
+
 
   var titleStyle = {
     color: "red",
     fontSize: 25,
   };
 
+  var circleStyle = {
+    width: 200,
+    height: 200,
+    borderRadius: 80/2,
+    backgroundColor: 'blue',
+  }
+
+  var surfaceStyle = {
+    width: 200,
+    height: 200,
+    backgroundColor: 'red',
+  }
+  //responder props to detect hand gestures relative to the view!!!
+
+  //when the action is started
+
+
+  //Defining conditions under which our view wants to be a responder
+  //here: when something moves on it!
+  //yes!
+  function onStartShouldSetResponder(evt)
+  {
+    return true;
+  }
+
+  function onMoveShouldSetResponder(evt)
+  {
+    return true;
+  }
+
+  //once view becomes a responder, we want it to react as long as the element is still on the screen!
+  function onResponderMove(evt)
+  {
+    //tryVibration(evt);
+    setLocationX(evt.nativeEvent.pageX);
+    setLocationY(evt.nativeEvent.locationY);
+  }
+
+  function tryVibration()
+  {
+    Vibration.vibrate(50);
+    //alert('tap!');
+    return(null);
+  }
+
+  //try updating the location on the screen!!!
+  //if within the location, then vibrate
+  //else don't vibrate
+  //easy way of checking within location?
+
+
+  
   return (
-    <View style={styles.container}>
-        <Text style={titleStyle}>Blind People App</Text>
-        <View style={styles.circle}></View>
+    <View
+      style={styles.container}
+      
+    >  
+        <Text style={titleStyle}>Location X: {Math.round(locationX)} </Text>
+        <Text style={titleStyle}>Location Y: { (locationY)} </Text>
+        <View 
+          style={backgroundColor="blue"}
+          onMoveShouldSetResponder={onMoveShouldSetResponder}
+          onStartShouldSetResponder={onStartShouldSetResponder}
+          onResponderMove={onResponderMove}></View>
     </View>
   );
 }
@@ -82,7 +150,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'blue',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
