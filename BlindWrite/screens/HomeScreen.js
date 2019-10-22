@@ -18,8 +18,17 @@ import { MonoText } from '../components/StyledText';
 
 function TouchShape(props){
 
+  
+  function tryVibration()
+  {
+    Vibration.vibrate(50);
+    //alert('tap!');
+  }
+
   const [locationX, setLocationX] = useState(0);
   const [locationY, setLocationY] = useState(0);
+
+  var x, y;
 
   function onStartShouldSetResponder(evt)
   {
@@ -33,21 +42,37 @@ function TouchShape(props){
 
   function onResponderMove(evt)
   {
+    x =  evt.nativeEvent.pageX;
+    y = evt.nativeEvent.pageY;
+
     //tryVibration(evt);
-    setLocationX(evt.nativeEvent.pageX);
-    setLocationY(evt.nativeEvent.pageY);
+    setLocationX(x);
+    setLocationY(y);
+
+    if ((23 < x && x < 84 && 270 < y && y < 553)
+    || (84 < x && x < 207 && 510 < y && y < 553))
+    {
+      tryVibration()
+    }
   }
+
 
   return (
     <View
+      alignItems="stretch"
+      flexDirection="column"
+      justifyContent="center"
     >
       <Text style={styles.title}>Location X: {Math.round(locationX)} </Text>
       <Text style={styles.title}>Location Y: {Math.round(locationY)} </Text>
       <View
-      onMoveShouldSetResponder={onMoveShouldSetResponder}
-      onStartShouldSetResponder={onStartShouldSetResponder}
-      onResponderMove={onResponderMove}>
-      {props.children}
+        alignItems="stretch"
+        flexDirection="column"
+        justifyContent="center"
+        onMoveShouldSetResponder={onMoveShouldSetResponder}
+        onStartShouldSetResponder={onStartShouldSetResponder}
+        onResponderMove={onResponderMove}>
+        {props.children}
       </View>
     </View>
   );
@@ -60,13 +85,6 @@ function TouchShape(props){
 export default function HomeScreen(props) {
 
 
-  function tryVibration()
-  {
-    Vibration.vibrate(50);
-    //alert('tap!');
-    return(null);
-  }
-
   //try updating the location on the screen!!!
   //if within the location, then vibrate
   //else don't vibrate
@@ -77,10 +95,20 @@ export default function HomeScreen(props) {
   return (
     <View
       style={styles.container}
+      alignItems="stretch"
+      flexDirection="column"
+      justifyContent="center"
     >  
         <Text>Main Screen</Text>
         <TouchShape>
-          <View style={styles.circle}></View>
+          <View style={styles.bigBox} 
+          alignItems="stretch"
+          flexDirection="column"
+          justifyContent="center">
+            <Text style={{fontSize: 400, fontWeight: "bold", color: "black"}}>
+              L
+            </Text>
+          </View>
         </TouchShape>
     </View>
   );
@@ -137,6 +165,11 @@ const styles = StyleSheet.create({
     height: 300,
     borderRadius: 300/2,
     backgroundColor: 'blue',
+  },
+  bigBox: {
+    width: "100%",
+    height: 600,
+    backgroundColor: 'white',
   },
   container: {
     flex: 1,
