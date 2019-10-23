@@ -25,6 +25,11 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "android": {
+      "package": "com.tkgz.blindwrite"
+    },
+    "description": "Simple prototype app to teach blind people how to write with their phones.",
+    "githubUrl": "https://github.com/TKGZ/BlindWrite"
   }
 }
